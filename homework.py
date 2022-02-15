@@ -61,6 +61,8 @@ def get_api_answer(current_timestamp):
         response = homework_statuses.json()
     except requests.RequestException as error:
         logging.error(f'Сбой при запросе к эндпоинту {error}')
+    except TypeError as error:
+        logging.error(f'Объект JSON не верного типа {error}')
     else:
         if homework_statuses.status_code != 200:
             raise ValueError(logging.error(
@@ -122,8 +124,13 @@ def check_tokens():
 def main():
     """Основная логика работы бота."""
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    if bot.getMe()['is_bot'] is True:
+        message = ('Бот корректно инициализирован')
+        send_message(bot, message)
+        logging.info(message)
+
     current_timestamp = int(time.time())
-    last_error_message = '1111'
+    last_error_message = ''
 
     if check_tokens() is False:
         message = (
