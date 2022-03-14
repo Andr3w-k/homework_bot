@@ -126,7 +126,7 @@ def main():
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     if bot.getMe()['is_bot'] is True:
         message = ('Бот корректно инициализирован')
-        send_message(bot, message)
+        # send_message(bot, message)
         logging.info(message)
 
     current_timestamp = int(time.time())
